@@ -1,12 +1,16 @@
 from flask import Flask, request, Response
+import os
 
 app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "USSD App Running"
 
 @app.route("/ussd", methods=['POST'])
 def ussd_handler():
 
     session_id = request.values.get("sessionId", "")
-    phone_number = request.values.get("phoneNumber", "")
     text = request.values.get("text", "")
 
     if text == "":
@@ -19,7 +23,7 @@ def ussd_handler():
         response = "CON Theft Type:\n1. Home Break-in\n2. Street Mugging"
 
     elif text == "2":
-        response = "END ALERT: High Priority case logged. Police notified."
+        response = "END ALERT: High Priority case logged."
 
     elif text in ["1*1", "1*2"]:
         response = f"END Case ZP{session_id[-4:]} logged successfully."
@@ -31,4 +35,4 @@ def ussd_handler():
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
