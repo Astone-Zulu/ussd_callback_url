@@ -7,12 +7,21 @@ app = Flask(__name__)
 def home():
     return "USSD App Running"
 
-@app.route("/ussd", methods=['POST', 'GET'])
+@app.route("/ussd", methods=["POST"])
 def ussd_handler():
 
+    # FULL USSD DATA (IMPORTANT)
     session_id = request.values.get("sessionId", "")
+    service_code = request.values.get("serviceCode", "")
+    phone_number = request.values.get("phoneNumber", "")
     text = request.values.get("text", "")
 
+    print("Session:", session_id)
+    print("Service Code:", service_code)
+    print("Phone:", phone_number)
+    print("Text:", text)
+
+    # MENU LOGIC
     if text == "":
         response = "CON Zambia Crime Portal\n"
         response += "1. Report Theft\n"
@@ -26,7 +35,7 @@ def ussd_handler():
         response = "END ALERT: High Priority case logged."
 
     elif text in ["1*1", "1*2"]:
-        response = f"END Case ZP{session_id[-4:]} logged successfully."
+        response = f"END Case logged successfully for {phone_number}"
 
     else:
         response = "END Invalid option. Try again."
