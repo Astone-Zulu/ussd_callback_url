@@ -7,7 +7,7 @@ app = Flask(__name__)
 def home():
     return "USSD App Running"
 
-@app.route("/ussd", methods=["POST"])
+@app.route("/ussd", methods=["POST", 'GET'])
 def ussd_handler():
 
     # FULL USSD DATA (IMPORTANT)
