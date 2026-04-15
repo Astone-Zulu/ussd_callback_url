@@ -7,7 +7,7 @@ app = Flask(__name__)
 def home():
     return "USSD App Running"
 
-@app.route("/ussd", methods=['POST', 'GET'])
+@app.route("/ussd", methods=['GET'])
 def ussd_handler():
 
     session_id = request.values.get("sessionId", "")
@@ -35,4 +35,4 @@ def ussd_handler():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(port=8000, debug=True)
